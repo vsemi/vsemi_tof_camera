@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Sentinel ToF Camera</title>
+
+        <link rel="stylesheet" href="css/spectre.min.css">
+        <link rel="stylesheet" href="css/spectre-exp.min.css">
+        <link rel="stylesheet" href="css/spectre-icons.min.css">
+        <link rel="stylesheet" href="css/loading.css">
+
+        <style>
+            .vsemi-logo {
+                height: 40px;
+                bottom: 0px;
+                right: 0;
+                margin: 20px;
+                z-index: 120;
+            }
+            .tau-logo {
+                height: 40px;
+                bottom: 50px;
+                right: 0;
+                margin: 20px;
+                z-index: 110;
+            }
+
+            .splash-screen {
+                height: 100vh;
+                width: 100vw;
+                background: black;
+                z-index: 100;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+
+    </head>
+
+  <body>
+    <div id='app'>
+
+
+        <div v-if="loaded" id="ui" class="p-absolute m-2" style="max-width: 100px; z-index: 90;">
+
+            <div class="m-2">
+
+                <div class="btn-group d-block mb-2">
+                    <div @click="autoRefresh = !autoRefresh" class='btn btn-action s-circle btn-sm tooltip tooltip-right'
+                        data-tooltip="Play | Pause" :class="{'btn-primary': autoRefresh}">
+                        <i class="icon icon-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="d-block mb-2">
+                    <div @click="resetView" class='btn btn-action s-circle btn-sm tooltip tooltip-right mr-1'
+                        data-tooltip="Reset Camera">
+                        <i class="icon icon-resize-horiz"></i>
+                    </div>
+                    <div @click="onAutoRotate" class='btn btn-action s-circle btn-sm tooltip tooltip-right'
+                        data-tooltip="Auto Rotate Scene" :class="{'btn-primary': autoRotate}">
+                        <i class="icon icon-refresh"></i>
+                    </div>
+                </div>
+
+                <div class="btn-group d-block mb-2 tooltip tooltip-right" data-tooltip="Change Point Size">
+                    <div class="btn btn-sm btn-action s-circle" @click="pointSize('up')" ><i class="icon icon-plus"></i></div>
+                    <div class="btn btn-sm btn-action s-circle" @click="pointSize('down')"><i class="icon icon-minus"></i></div>
+                </div>
+
+                <input type="range"  min="10" max="7000" step="10" class="slider tooltip tooltip-right" @change="setRange" :value="viewDistance"
+                    :data-tooltip="`Color Range: ${viewDistance/1000} m`">
+
+                <input type="range"  min="0" max="1000" step="5" class="slider tooltip tooltip-right" @change="setIntTime3D" :value="intTime3D"
+                    :data-tooltip="`3D Intergration Time ${intTime3D} us`">
+            </div>
+
+            <div style="margin-top: 40px;">
+
+                <div @click="showHelp = true" class='btn btn-action m-2 s-circle btn-sm tooltip tooltip-right'
+                        data-tooltip="Help">
+                        <strong>?</strong>
+                </div>
+            </div>
+
+        </div>
+
+        <div div v-if="loaded" id="pip" class="p-absolute m-2" style="max-width: 300px; z-index: 90; right:0px">
+
+            <div class="card m-2">
+                <div class="card-header">
+                    <!-- <div class="card-title h5">Depth</div> -->
+                    <div class="card-subtitle">Depth</div>
+                </div>
+                <div class="card-image">
+                  <img id="depthView" src="" class="img-responsive" style="width: 300px;">
+                </div>
+            </div>
+
+            <div class="card m-2">
+                <div class="card-header">
+                    <!-- <div class="card-title h5">Depth</div> -->
+                    <div class="card-subtitle">Grayscale</div>
+                </div>
+                <div class="card-image">
+                  <img id="amplitudeView" src="" class="img-responsive" style="width: 300px;">
+                </div>
+            </div>
+
+        </div>
+
+        <div v-show="!loaded" class="splash-screen p-absolute d-flex">
+            <div class="lds-ripple"><div></div><div></div></div>
+        </div>
+
+
+        <div class="modal" :class="{active:showHelp}">
+            <a href="#close" class="modal-overlay" aria-label="Close"></a>
+            <div class="modal-container">
+                    <div class="modal-header"><a class="btn btn-clear float-right" @click="showHelp = false"></a>
+                        <div class="modal-title h5">Onion Tau Studio Help</div>
+                    </div>
+                    <div class="modal-body">
+                      <div class="content">
+                        <h4>Pan, Zoom, Rotate</h4>
+
+                        <p> 🌐 3D Rotate - Click and drag
+                            <br>
+                            ↔️ 2D Pan - Right-click and drag
+                            <br>
+                            🔍 Zoom - Scroll up and down
+                        </p>
+
+
+                        <h4>UI Controls</h4>
+
+                        <p>
+                            <div class='btn btn-sm btn-action s-circle mr-2' >
+                                <i class="icon icon-arrow-right"></i>
+                            </div>
+                            Play | Pause - Stop/resume the real-time depth data stream from the Tau Camera. When stopped, the point cloud will show the last frame.
+                        </p>
+
+                        <p>
+                            <div class='btn btn-sm btn-action s-circle mr-2' >
+                                <i class="icon icon-resize-horiz"></i>
+                            </div>
+                            Reset Point Camera - Reset the point cloud orientation and zoom
+                        </p>
+
+                        <p>
+                            <div class='btn btn-sm btn-action s-circle mr-2' >
+                                <i class="icon icon-refresh"></i>
+                            </div>
+                            Auto Rotate Scene - Enable/disable automatic rotation of the point cloud
+                        </p>
+
+                        <p>
+                            <div class="btn-group mr-2">
+                                <div class="btn btn-sm btn-action s-circle"><i class="icon icon-plus"></i></div>
+                                <div class="btn btn-sm btn-action s-circle"><i class="icon icon-minus"></i></div>
+                            </div>
+                            Increase or decrease the size of each pixel in the point cloud
+                        </p>
+
+                        <p class="mb-2">
+                            <strong class="text-primary"> Color Range Slider </strong> - Adjust the depth-based coloring of the point cloud
+                        </p>
+
+                        <p>
+                            <strong class="text-primary"> 3D Integration Time Slider </strong> - Adjust the duration of time the sensor collects light data, similar to exposure time on a regular camera. Higher integration time will result in more detailed data.
+                        </p>
+
+                        <h4>Additional Resources</h4>
+                        <p>
+                            Tau Product Page: <a href="https://TauLidar.com" target="_blank"> https://TauLidar.com </a>
+                            <br>
+                            Onion Community Forum: <a href="https://community.onion.io/tau" target="_blank"> https://community.onion.io/tau </a>
+                            <br>
+                            GitHub Repos:
+                                <a href="https://github.com/OnionIoT/tau-lidar-camera" target="_blank"> tau-lidar-camera </a>,
+                                <a href="https://github.com/OnionIoT/tau-lidar-common" target="_blank"> tau-lidar-common </a>,
+                                <a href="https://github.com/OnionIoT/tau-lidar-server" target="_blank"> tau-lidar-server </a>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a class="btn btn-link" @click="showHelp = false">Close</a>
+                    </div>
+                  </div>
+          </div>
+
+    </div>
+
+    <div id="pointsView" style="width:100%; height:100%; position:relative;"> </div>
+
+    <a href="https://taulidar.com" target="_blank">
+        <img class="tau-logo p-absolute" src="img/tau-logo.svg"/>
+    </a>
+    <a href="https://vsemi.io" target="_blank">
+        <img class="vsemi-logo p-absolute" src="img/vsemi-logo-w.png" style="background-color:black;"/>
+    </a>
+
+    <script>
+        window.ws = new WebSocket("ws://127.0.0.1:5678/")
+        ws.sendObj = function(data) {
+            this.send(JSON.stringify(data))
+        }
+    </script>
+
+    <script type="module" src="js/app.js" ></script>
+
+
+    </body>
+</html>
