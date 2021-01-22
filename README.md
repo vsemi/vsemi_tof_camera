@@ -111,6 +111,8 @@ or
 
 Depth map and amplitude image will be showing in separate windows.
 
+![Web UI](docs/opencv-ui-amplitude.png)
+
 ## `distancePlusGrayscale.py`
 
 ### What this demonstrates
@@ -134,3 +136,6 @@ or
 ```  
 
 Depth map and grayscale image will be showing in separate windows.
+
+![Web UI](docs/opencv-ui-grayscale.png)
+
