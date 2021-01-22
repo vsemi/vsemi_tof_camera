@@ -1,5 +1,17 @@
 # Sentinel ToF Camera python SDK
 
+## Before run the examples, make sure your Sentinel ToF Camera plugged in, and current user has permission to read the serial port. For Linux system:
+
+sudo chmod a+rw /dev/ttyACM0
+
+### Pre-requisites
+
+  #### pyserial, use to connect to Sentinel ToF Camera via serial port
+
+    #pip install pyserial
+    or
+    #pip3 install pyserial
+
 # Examples
 
 Sample programs that use the Sentinel ToF Camera.
@@ -9,6 +21,22 @@ Sample programs that use the Sentinel ToF Camera.
 ### What this demonstrates
 
 The sample program demonstrates acquiring and displaying point cloud, depth map and grayscale image in a browser based interface.
+
+### Pre-requisites
+
+  #### websockets
+
+    #pip install websockets
+    or
+    #pip3 install websockets
+
+### How to Run
+
+Command to run the program:
+
+```    
+#python server.py
+```
 
 ## `distance.py`
 
