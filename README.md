@@ -1,11 +1,5 @@
 # Sentinel ToF Camera python SDK
 
-## Before run the examples, make sure your Sentinel ToF Camera plugged in, and current user has permission to read the serial port. 
-
-To grant serial port permission for Linux system:
-
-    #sudo chmod a+rw /dev/ttyACM0
-
 ### Pre-requisites
 
   #### pyserial, use to connect to Sentinel ToF Camera via serial port
@@ -14,6 +8,12 @@ To grant serial port permission for Linux system:
     or
     #pip3 install pyserial
 
+### Before run the examples, make sure your Sentinel ToF Camera plugged in, and current user has permission to read the serial port. 
+
+To grant serial port permission for Linux system:
+
+    #sudo chmod a+rw /dev/ttyACM0
+    
 # Examples
 
 Sample programs that use the Sentinel ToF Camera.
@@ -38,7 +38,21 @@ Command to run the program:
 
 ```    
 #python server.py
+or
+#python3 server.py
 ```
+You will have following output in your console:
+
+ToF camera opened successfully:
+    model:      4.0
+    firmware:   3.1
+    uid:        50004B
+    resolution: 160x60
+    port:       /dev/ttyACM0
+    IP address: 127.0.0.1
+    URL:  http://127.0.0.1:8080
+
+Copy the URL into your browser address bar.
 
 ## `distance.py`
 
