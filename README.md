@@ -70,7 +70,8 @@ Pre-requisites/dependencies:
   #### OpenCV python module
 
     #pip install opencv-python
-
+    or
+    #pip3 install opencv-python
 
 ### How to Run
 
@@ -78,6 +79,8 @@ Command to run the program:
 
 ```    
 #python distance.py
+or
+#python3 distance.py
 ```
 
 A depth map will be showing.
@@ -94,14 +97,14 @@ Pre-requisites/dependencies:
 
   #### OpenCV python module
 
-    #pip install opencv-python
-
 ### How to Run
 
 Command to run the program:
 
 ```    
 #python distancePlusAmplitude.py
+or
+#python3 distancePlusAmplitude.py
 ```
 
 Depth map and amplitude image will be showing in separate windows.
@@ -118,14 +121,14 @@ Pre-requisites/dependencies:
 
   #### OpenCV python module
 
-    #pip install opencv-python
-
 ### How to Run
 
 Command to run the program:
 
 ```
 #python distancePlusGrayscale.py
+or
+#python3 distancePlusGrayscale.py
 ```  
 
 Depth map and grayscale image will be showing in separate windows.
