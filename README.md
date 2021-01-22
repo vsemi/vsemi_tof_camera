@@ -2,9 +2,9 @@
 
 ## Before run the examples, make sure your Sentinel ToF Camera plugged in, and current user has permission to read the serial port. 
 
-For Linux system:
+To grant serial port permission for Linux system:
 
-sudo chmod a+rw /dev/ttyACM0
+    #sudo chmod a+rw /dev/ttyACM0
 
 ### Pre-requisites
 
