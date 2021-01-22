@@ -15,6 +15,7 @@ def setup():
         camera.setModulationChannel(0)             ## autoChannelEnabled: 0, channel: 0
         camera.setIntegrationTime3d(0, 1000)       ## set integration time 0: 1000
         camera.setMinimalAmplitude(0, 10)          ## set minimal amplitude 0: 80
+        camera.setIntegrationTimeGrayscale(15000)  ## set integration time grayscale: 20000
 
         cameraInfo = camera.info()
 
