@@ -1,6 +1,8 @@
 # Sentinel ToF Camera python SDK
 
-## Before run the examples, make sure your Sentinel ToF Camera plugged in, and current user has permission to read the serial port. For Linux system:
+## Before run the examples, make sure your Sentinel ToF Camera plugged in, and current user has permission to read the serial port. 
+
+For Linux system:
 
 sudo chmod a+rw /dev/ttyACM0
 
