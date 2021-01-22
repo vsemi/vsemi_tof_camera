@@ -55,6 +55,8 @@ ToF camera opened successfully:
 ```    
 Copy the URL into your browser address bar.
 
+![Web UI](docs/web-ui.png)
+
 ## `distance.py`
 
 ### What this demonstrates
