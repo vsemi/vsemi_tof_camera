@@ -85,6 +85,8 @@ or
 
 A depth map will be showing.
 
+![Web UI](docs/opencv-ui-depth.png)
+
 ## `distancePlusAmplitude.py`
 
 ### What this demonstrates
