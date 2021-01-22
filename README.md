@@ -43,6 +43,7 @@ or
 ```
 You will have following output in your console:
 
+```    
 ToF camera opened successfully:
     model:      4.0
     firmware:   3.1
@@ -51,7 +52,7 @@ ToF camera opened successfully:
     port:       /dev/ttyACM0
     IP address: 127.0.0.1
     URL:  http://127.0.0.1:8080
-
+```    
 Copy the URL into your browser address bar.
 
 ## `distance.py`
