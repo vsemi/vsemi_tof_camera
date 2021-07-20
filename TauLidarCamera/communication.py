@@ -146,16 +146,14 @@ class Communication:
         while (len(array) < size_with_command) :
             len_pending = size_with_command - len(array)
             in_waiting = self._ser.in_waiting
-            sz = min(len_pending, self._ser.in_waiting)
-            if sz > 0 :
-                buf = self._ser.read(sz)
-                a = bytearray(buf)
-                array.extend(a)
-            else :
-                sleep(0.0001)
+            sz = max(len_pending, self._ser.in_waiting)
+            
+            buf = self._ser.read(sz)
+            a = bytearray(buf)
+            array.extend(a)
 
             count += 1
-            if count > 1000 : break
+            if count > 100 : break
 
         return self._processData(array, size)
 
