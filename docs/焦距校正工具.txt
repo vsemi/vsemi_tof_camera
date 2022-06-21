@@ -1,0 +1,16 @@
+关于ToF相机焦距校正工具focusCalib.py的说明：
+
+1. 连接ToF相机；
+
+2. 运行焦距校正工具focusCalib.py，在命令行运行：
+
+   python focusCalib.py
+
+3. 如图 focus_calibration.png 所示，ToF相机的 “ID” 和 “聚焦指数（Focus）” 将显示在相机灰度图中；
+
+4. 打印ToF相机的 “ID” 标签，并贴到ToF相机外壳上；
+
+5. 调整镜头聚焦调节旋钮使两个方向到头（灰度图中将得到“最大聚焦指数”）；
+
+6. 调整镜头使当前聚焦指数（Current）尽可能接近最大值（Max），当 “当前聚焦指数（Current）” 达到最大值（Max）的 “90%” 时，字体将变为绿色，否则为红色。
+
