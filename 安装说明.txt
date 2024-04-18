@@ -1,0 +1,22 @@
+1. 下载安装 python
+
+   下载：https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe
+
+2. 安装 pyserial
+
+   python 安装好后，打开一个命令行，运行
+
+   pip install pyserial
+
+3. 安装 opencv-python
+
+   打开一个命令行，运行
+
+   pip install opencv-python
+
+   如果失败，也可以使用 offline 安装：
+
+   找到文件 opencv_python-4.6.0.66-cp36-abi3-win_amd64.whl，如果文件在当前目录：
+
+   pip install opencv_python-4.6.0.66-cp36-abi3-win_amd64.whl
+

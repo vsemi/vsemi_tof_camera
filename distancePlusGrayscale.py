@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import time
 
 from TauLidarCommon.frame import FrameType
 from TauLidarCamera.camera import Camera
@@ -39,6 +40,8 @@ def setup():
 
 
 def run(camera):
+    start_t = time.time()
+    frame_count = 0
     while True:
         frame = camera.readFrame(FrameType.DISTANCE_GRAYSCALE)
 
@@ -56,9 +59,13 @@ def run(camera):
 
             cv2.imshow('Depth Map', depth_img)
             cv2.imshow('Grayscale', grayscale_img)
+            frame_count += 1
 
             if cv2.waitKey(1) == 27: break
 
+    end_t = time.time()
+    frame_rate = frame_count / (end_t - start_t)
+    print('\nFrame rate: ', frame_rate)
 
 def cleanup(camera):
     print('\nShutting down ...')

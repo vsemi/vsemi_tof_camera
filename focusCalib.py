@@ -1,47 +1,39 @@
 import numpy as np
 import cv2
 import time
+import sys
 
 from TauLidarCommon.frame import FrameType
 from TauLidarCamera.camera import Camera
 
-def setup():
+def setup(port = None):
     camera = None
-    ports = Camera.scan()                      ## Scan for available Tau Camera devices
-
-    if len(ports) > 0:
-        '''
-        cameraNum = 0
-        cameraSelected = 0
-        if len(ports) >= 1:
-            print("\nMore than 1 cameras found:")
-            for port in ports:
-                print(cameraNum, ':', port)
-                cameraNum += 1
-            
-            cameraSelected = int(input("Enter the number to select a camera from the list:"))
-            print(cameraSelected, "entered, try to connect to port ", ports[cameraSelected])
-        '''
     
-        Camera.setRange(0, 4500)                   ## points in the distance range to be colored
+    if not port:
+        ports = Camera.scan()                      ## Scan for available Tau Camera devices
 
-        camera = Camera.open(ports[0])
-        #camera = Camera.open(ports[cameraSelected])
-        camera.setModulationChannel(0)             ## autoChannelEnabled: 0, channel: 0
-        camera.setIntegrationTime3d(0, 1000)       ## set integration time 0: 1000
-        camera.setMinimalAmplitude(0, 10)          ## set minimal amplitude 0: 80
-        camera.setIntegrationTimeGrayscale(10000)  ## set integration time grayscale: 8000, needed when requiring FrameType.DISTANCE_GRAYSCALE
+        if len(ports) > 0:
+            port = ports[0]
+    
+    Camera.setRange(0, 4500)                   ## points in the distance range to be colored
 
-        cameraInfo = camera.info()
+    print("\nOpenning ToF camera at serial port ", port, ' ...')
+    camera = Camera.open(port)
+    camera.setModulationChannel(0)             ## autoChannelEnabled: 0, channel: 0
+    camera.setIntegrationTime3d(0, 1000)       ## set integration time 0: 1000
+    camera.setMinimalAmplitude(0, 10)          ## set minimal amplitude 0: 80
+    camera.setIntegrationTimeGrayscale(10000)  ## set integration time grayscale: 8000, needed when requiring FrameType.DISTANCE_GRAYSCALE
 
-        print("\nToF camera opened successfully:")
-        print("    model:      %s" % cameraInfo.model)
-        print("    firmware:   %s" % cameraInfo.firmware)
-        print("    uid:        %s" % cameraInfo.uid)
-        print("    resolution: %s" % cameraInfo.resolution)
-        print("    port:       %s" % cameraInfo.port)
+    cameraInfo = camera.info()
 
-        print("\nPress Esc key over GUI or Ctrl-c in terminal to shutdown ...")
+    print("\nToF camera opened successfully:")
+    print("    model:      %s" % cameraInfo.model)
+    print("    firmware:   %s" % cameraInfo.firmware)
+    print("    uid:        %s" % cameraInfo.uid)
+    print("    resolution: %s" % cameraInfo.resolution)
+    print("    port:       %s" % cameraInfo.port)
+
+    print("\nPress Esc key over GUI or Ctrl-c in terminal to shutdown ...")
 
     return camera
 
@@ -121,7 +113,12 @@ def cleanup(camera):
     camera.close()
 
 if __name__ == "__main__":
-    camera = setup()
+
+    port = None
+    if len(sys.argv) > 1:
+        port = sys.argv[1]
+    
+    camera = setup(port)
 
     if camera:
         try:

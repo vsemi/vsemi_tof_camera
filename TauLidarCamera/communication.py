@@ -23,18 +23,24 @@ class Communication:
 
     def scan(self):
         deviceList = []
-        print('Looking for connected Tau LiDAR Camera hardware ...')
+        print('\nLooking for connected ToF Camera hardware ...')
 
         ports = list(serial.tools.list_ports.comports())
         for port, description, address in ports:
+            print("Found serial port: ", port, ", ", description, ", ", address)
+            if not ('Serial' in description or 'USB' in description or 'ComPort' in description):
+                print("Port: ", port, ' is not a Serial Device')
+                continue
             self._ser.port = port
             try:
                 self._ser.open()
             except:
-                pass
+                print("Failed to open serial port: ", port)
+                continue
             if self._ser.is_open:
                 try:
                     ## Verify if it is valid device
+                    print("Verifying if port ", port, ' is valid ToF camera ...')
                     dataArray = self.getIdentification()
                     identificationValue = int(binascii.hexlify(dataArray), 16)
                     chipType = (identificationValue & MASK_CHIP_TYPE_DEVICE) >> SHIFT_CHIP_TYPE_DEVICE
@@ -44,13 +50,14 @@ class Communication:
                     nChipVersion = int(chipVersion)
 
                     if (nChipType >= 4 and nChipVersion >= 0):
+                        print("Serial port: ", port, ' is valid.')
                         deviceList.append(port)
                 except:
                     pass
                 self._ser.close()
 
         if len(deviceList) == 0:
-            print("No Tau Camera devices found, please check: \n1. If Tau Camera is connected; \n2. If current user has permission to access all serial ports.")
+            print("No ToF Camera device found, please check: \n1. If ToF Camera is connected; \n2. If current user has permission to access all serial ports.")
 
         return deviceList
 

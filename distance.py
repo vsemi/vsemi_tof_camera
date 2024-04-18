@@ -61,7 +61,8 @@ def run(camera):
             upscale = 4
             img =  cv2.resize(mat_depth_rgb, (frame.width*upscale, frame.height*upscale))
 
-            cv2.imshow('Depth Map - ' + uid, img)
+            cv2.imshow('Sensor ID: ' + str(uid), img)
+
             frame_count += 1
 
             if cv2.waitKey(1) == 27: break

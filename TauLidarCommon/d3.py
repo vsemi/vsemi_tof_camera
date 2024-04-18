@@ -180,8 +180,8 @@ class _PointDistanceAmplitudeMasked(Structure):
     _pack_ = 1
     _fields_ = [("distanceAmplitude", c_uint32)]
 
-ANGLE_X      = 80.0 #50.0
-ANGLE_Y      = 30.0 #18.75
+ANGLE_X      = 55.0
+ANGLE_Y      = 20.625
 
 THETA_H = math.pi * ANGLE_X / 180.0
 ALPHA_H = (math.pi - THETA_H) / 2
@@ -190,9 +190,6 @@ THETA_V = math.pi * ANGLE_Y / 180.0
 ALPHA_V = 2 * math.pi - (THETA_V / 2)
 
 class FrameBuilder:
-    '''
-    Helper class to build frame objects from raw bytestream camera output
-    '''
 
     def __init__(self):
         self._imageColorizer = ImageColorizer()
@@ -200,22 +197,16 @@ class FrameBuilder:
         self._imageColorizer.setRange(1000, 4000)
 
     def setColorMode(self, colorMode):
-        '''
-        set the color mode of data to be processed
-        '''
         self._colorMode = colorMode
 
     def setRange(self, z1, z2):
-        '''
-        set 2D depth map color range
-        '''
         self._imageColorizer.setRange(z1, z2)
 
     def composeFrame(self, dataArray, frameType) :
         '''
         compose Frame using raw bytearray data
         '''
-
+        
         if frameType == FrameType.DISTANCE_GRAYSCALE:
             return self.composeDistanceGrayscaleFrame(dataArray)
 
@@ -228,9 +219,9 @@ class FrameBuilder:
 
     def composeDistanceAmplitudeFrame(self, dataArray) :
         '''
-        helper function: compose Frame using raw bytearray data
+        compose Frame using raw bytearray data
         '''
-
+        
         len_bytes = len(dataArray)
         if len_bytes < 38400:
             print("Bad frame ignored, bytes length: %d" % len_bytes)
@@ -294,7 +285,7 @@ class FrameBuilder:
 
                     X = Z / math.tan(gamma_i_h)
                     Y = -1 * Z * math.tan(gamma_i_v)
-
+                    
                     data_points.append([X, Y, Z, r, g, b])
 
             saturated_mask.append(saturated_mask_v)
@@ -309,9 +300,9 @@ class FrameBuilder:
 
     def composeDistanceFrame(self, dataArray) :
         '''
-        helper function: compose Frame using raw bytearray data
+        compose Frame using raw bytearray data
         '''
-
+        
         len_bytes = len(dataArray)
         if len_bytes < 19200:
             print("Bad frame ignored, bytes length: %d" % len_bytes)
@@ -391,9 +382,9 @@ class FrameBuilder:
 
     def composeDistanceGrayscaleFrame(self, dataArray) :
         '''
-        helper function: compose Frame using raw bytearray data
+        compose Frame using raw bytearray data
         '''
-
+        
         len_bytes = len(dataArray)
         if len_bytes < 28800:
             print("Bad frame ignored, bytes length: %d" % len_bytes)

@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
-        <title>Onion Tau Studio</title>
+        <title>Sentinel ToF Camera</title>
 
         <link rel="stylesheet" href="css/spectre.min.css">
         <link rel="stylesheet" href="css/spectre-exp.min.css">
@@ -11,17 +11,16 @@
         <link rel="stylesheet" href="css/loading.css">
 
         <style>
-            .tau-logo {
-                position: relative;
-                height: 40px;
-                bottom: 50px;
-                right: 42px;
-                margin: 20px;
-                z-index: 110;
-            }
             .vsemi-logo {
                 height: 40px;
                 bottom: 0px;
+                right: 0;
+                margin: 20px;
+                z-index: 120;
+            }
+            .tau-logo {
+                height: 40px;
+                bottom: 50px;
                 right: 0;
                 margin: 20px;
                 z-index: 110;
@@ -85,13 +84,6 @@
                 </div>
             </div>
 
-            <div>
-                <div @click="showFeedback = true" class='btn btn-action m-2 s-circle btn-sm tooltip tooltip-right'
-                        data-tooltip="Feedback">
-                        <strong>🗣</strong>
-                </div>
-            </div>
-
         </div>
 
         <div div v-if="loaded" id="pip" class="p-absolute m-2" style="max-width: 300px; z-index: 90; right:0px">
@@ -123,7 +115,6 @@
         </div>
 
 
-        <!-- help modal -->
         <div class="modal" :class="{active:showHelp}">
             <a href="#close" class="modal-overlay" aria-label="Close"></a>
             <div class="modal-container">
@@ -181,30 +172,16 @@
                             <strong class="text-primary"> 3D Integration Time Slider </strong> - Adjust the duration of time the sensor collects light data, similar to exposure time on a regular camera. Higher integration time will result in more detailed data.
                         </p>
 
-                        <h4>How to Update Tau Studio</h4>
-                        <p>
-                            Open a command-line window and run this command: <br>
-                            <code>python -m pip install TauLidarServer --upgrade</code>
-                        </p>
-
-                        <h4>More Resources</h4>
+                        <h4>Additional Resources</h4>
                         <p>
                             Tau Product Page: <a href="https://TauLidar.com" target="_blank"> https://TauLidar.com </a>
                             <br>
-                            Onion Community Forum: <a href="https://community.onion.io/category/11/tau-camera-corner" target="_blank"> https://community.onion.io/ </a>
-                            <br>
-                            <br>
-                            <a href="https://api.onioniot.com/util/url/tau-get-started" target="_blank">Tau Camera Get Started Guide</a>
-                            <br>
-                            <a href="https://api.onioniot.com/util/url/tau-studio-get-started" target="_blank">Tau Studio Get Started Guide</a>
-                            <br>
-                            <a href="https://api.onioniot.com/util/url/tau-camera-faq" target="_blank">Tau Camera FAQs</a>
-                            <br>
+                            Onion Community Forum: <a href="https://community.onion.io/tau" target="_blank"> https://community.onion.io/tau </a>
                             <br>
                             GitHub Repos:
-                                <a href="https://github.com/OnionIoT/tau-lidar-server" target="_blank"> tau-lidar-server</a>,
-                                <a href="https://github.com/OnionIoT/tau-lidar-camera" target="_blank"> tau-lidar-camera</a>
-
+                                <a href="https://github.com/OnionIoT/tau-lidar-camera" target="_blank"> tau-lidar-camera </a>,
+                                <a href="https://github.com/OnionIoT/tau-lidar-common" target="_blank"> tau-lidar-common </a>,
+                                <a href="https://github.com/OnionIoT/tau-lidar-server" target="_blank"> tau-lidar-server </a>
                         </p>
                       </div>
                     </div>
@@ -214,48 +191,15 @@
                   </div>
           </div>
 
-          <!-- feedback modal -->
-          <div class="modal" :class="{active:showFeedback}">
-              <a href="#close" class="modal-overlay" aria-label="Close"></a>
-              <div class="modal-container">
-                      <div class="modal-header"><a class="btn btn-clear float-right" @click="showFeedback = false"></a>
-                          <div class="modal-title h5">Feedback</div>
-                      </div>
-                      <div class="modal-body">
-                        <div class="content">
-                          <h4>We would love to hear from you! ❤️</h4>
-
-                          <p> Want to tell us what you think of the Tau Camera?<br>
-                            Let us know on <a href="https://twitter.com/OnionIoT" target="_blank"><strong>Twitter</strong> - @OnionIoT</a>
-                          </p>
-
-                          <p> Want to <strong>connect with other Tau Camera users</strong>?<br>
-                            Check out the <a href="https://community.onion.io/category/11/tau-camera-corner" target="_blank">Onion Community Forum</a>
-                          </p>
-
-                          <p> Have a <strong>feature request or a bug</strong> that you’d like to report? <br>
-                            Post on <a href="https://github.com/OnionIoT/tau-lidar-server/issues" target="_blank">GitHub</a> and we'll take a look
-                          </p>
-
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <a class="btn btn-link" @click="showFeedback = false">Close</a>
-                      </div>
-                    </div>
-            </div>
-
     </div>
 
     <div id="pointsView" style="width:100%; height:100%; position:relative;"> </div>
 
-
-
     <a href="https://taulidar.com" target="_blank">
         <img class="tau-logo p-absolute" src="img/tau-logo.svg"/>
     </a>
-    <a href="https://taulidar.com" target="_blank">
-        <img class="vsemi-logo p-absolute" src="img/vsemi-logo-w.png"/>
+    <a href="https://vsemi.io" target="_blank">
+        <img class="vsemi-logo p-absolute" src="img/vsemi-logo-w.png" style="background-color:black;"/>
     </a>
 
     <script>
